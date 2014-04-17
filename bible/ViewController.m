@@ -24,7 +24,7 @@
 
     // http://stackoverflow.com/questions/9897978
     self.navigation.leftBarButtonItems = [NSArray arrayWithObjects:self.book, self.chapter, self.version, nil];
-    self.navigation.rightBarButtonItems = [NSArray arrayWithObjects:self.action, self.search, nil];
+    // self.navigation.rightBarButtonItems = [NSArray arrayWithObjects:self.action, self.search, nil];
 
     // http://stackoverflow.com/questions/2455367
     self.navigation.title = NSLocalizedString(@"Reading", "Title for back to Reading Page");
