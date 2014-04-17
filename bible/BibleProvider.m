@@ -160,6 +160,7 @@
             content = [content stringByReplacingOccurrencesOfString:@"」" withString:@"”"];
             content = [content stringByReplacingOccurrencesOfString:@"『" withString:@"』"];
             content = [content stringByReplacingOccurrencesOfString:@"』" withString:@"’"];
+            content = [content stringByReplacingOccurrencesOfString:@"上帝" withString:@"　神"];
         }
         content = [NSString stringWithFormat:reading, osis, content];
         prevOSIS = [self getString:statement andIndex:3];
