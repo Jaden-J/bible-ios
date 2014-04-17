@@ -22,6 +22,7 @@
     NSString *content;
     NSString *prevOSIS;
     NSString *nextOSIS;
+    NSMutableArray *chapters;
 
     NSArray *versions;
     NSString *bibledata;
@@ -29,10 +30,12 @@
 }
 
 @synthesize book = book;
+@synthesize osis = osis;
 @synthesize chapter = chapter;
 @synthesize content = content;
 @synthesize version = version;
 @synthesize versions = versions;
+@synthesize chapters = chapters;
 
 - (id)init
 {
@@ -40,6 +43,7 @@
         version = nil;
         database = nil;
 
+        chapters = [NSMutableArray arrayWithCapacity:20];
         bibledata = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)
                       objectAtIndex:0] stringByAppendingPathComponent:@"bibledata"];
         NSString *path = [[NSBundle mainBundle] pathForResource:@"reading" ofType:@"html"];
@@ -94,10 +98,17 @@
 
 - (BOOL)reloadOSIS
 {
+    if (chapters != nil) {
+        [chapters removeAllObjects];
+    }
     if (osis != nil) {
         NSString *newOSIS = osis;
         osis = nil;
-        return [self changeOSIS:newOSIS];
+        if (![self changeOSIS:newOSIS]) {
+            return [self changeOSIS:@"Gen.1"];
+        } else {
+            return NO;
+        }
     }
     return NO;
 }
@@ -243,6 +254,31 @@
     return [self getVersionMetadata:versionName withName:@"name" defaultValue:[versionName uppercaseString]];
 }
 
+- (NSArray *)getChapters
+{
+    NSString *osisBook = [[osis componentsSeparatedByString:@"."] firstObject];
+    if ([chapters count] == 0 || ![[chapters objectAtIndex:0] hasPrefix:[osisBook stringByAppendingString:@"."]]) {
+        [chapters removeAllObjects];
+        sqlite3_stmt *statement;
+        sqlite3_prepare_v2(database, (const char *) QUERY_CHAPTERS, -1, &statement, nil);
+        sqlite3_bind_text(statement, 1, [[osisBook stringByAppendingString:@".%"] UTF8String], -1, NULL);
+        while (sqlite3_step(statement) == SQLITE_ROW) {
+            [chapters addObject:[self getString:statement andIndex:0]];
+        }
+        sqlite3_finalize(statement);
+    }
+    return chapters;
+}
+
+- (NSString *)getChapterName:(NSString *)chapterName
+{
+    NSString *name = [[chapterName componentsSeparatedByString:@"." ] lastObject];
+    if ([@"int" isEqualToString:name]) {
+        return NSLocalizedString(@"Intro", @"Chapter Introduction in some bible translations");
+    } else {
+        return name;
+    }
+}
 - (void)dealloc
 {
     if (database != nil) {

@@ -15,6 +15,7 @@
 		CD14AD4518FCFE2A00F98E5C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD14AD2718FCFE2A00F98E5C /* UIKit.framework */; };
 		CD14AD4D18FCFE2A00F98E5C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD14AD4B18FCFE2A00F98E5C /* InfoPlist.strings */; };
 		CD14AD4F18FCFE2A00F98E5C /* bibleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CD14AD4E18FCFE2A00F98E5C /* bibleTests.m */; };
+		CD48F77919003414003DE7CE /* ChapterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD48F77819003414003DE7CE /* ChapterViewController.m */; };
 		CD8668FA18FF997100B55D38 /* reading.html in Resources */ = {isa = PBXBuildFile; fileRef = CD8668F918FF997100B55D38 /* reading.html */; };
 		CDD2B3A418FECC9A00188175 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD2B39718FECC9A00188175 /* AppDelegate.m */; };
 		CDD2B3A518FECC9A00188175 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDD2B39818FECC9A00188175 /* Main.storyboard */; };
@@ -56,6 +57,8 @@
 		CD14AD4A18FCFE2A00F98E5C /* bibleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "bibleTests-Info.plist"; sourceTree = "<group>"; };
 		CD14AD4C18FCFE2A00F98E5C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CD14AD4E18FCFE2A00F98E5C /* bibleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = bibleTests.m; sourceTree = "<group>"; };
+		CD48F77719003414003DE7CE /* ChapterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChapterViewController.h; sourceTree = "<group>"; };
+		CD48F77819003414003DE7CE /* ChapterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChapterViewController.m; sourceTree = "<group>"; };
 		CD8668F918FF997100B55D38 /* reading.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = reading.html; sourceTree = "<group>"; };
 		CDD2B39618FECC9A00188175 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CDD2B39718FECC9A00188175 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -175,6 +178,8 @@
 				CDD2B39A18FECC9A00188175 /* bible-Info.plist */,
 				CD104AF518FF9DFE004E3042 /* VersionViewController.h */,
 				CD104AF618FF9DFE004E3042 /* VersionViewController.m */,
+				CD48F77719003414003DE7CE /* ChapterViewController.h */,
+				CD48F77819003414003DE7CE /* ChapterViewController.m */,
 			);
 			path = bible;
 			sourceTree = "<group>";
@@ -312,6 +317,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD48F77919003414003DE7CE /* ChapterViewController.m in Sources */,
 				CDD2B3A418FECC9A00188175 /* AppDelegate.m in Sources */,
 				CD104AF718FF9DFE004E3042 /* VersionViewController.m in Sources */,
 				CDD2B3AA18FECC9A00188175 /* main.m in Sources */,
