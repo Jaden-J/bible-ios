@@ -1,4 +1,3 @@
-
 //
 //  VersionViewController.h
 //  bible
@@ -9,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VersionViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@interface VersionViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @end
