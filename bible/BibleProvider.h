@@ -13,6 +13,7 @@
     from chapters where reference_osis = ? or reference_osis = ? order by reference_osis desc limit 1"
 #define QUERY_METADATA "select name, value from metadata"
 #define QUERY_CHAPTERS "select reference_osis from chapters where reference_osis like ?"
+#define QUERY_BOOKS "select osis, human from books"
 
 @interface BibleProvider : NSObject
 
@@ -22,6 +23,7 @@
 @property(nonatomic, copy) NSString* content;
 @property(nonatomic, copy) NSString* version;
 @property(nonatomic, getter = getChapters) NSArray* chapters;
+@property(nonatomic, getter = getBooks) NSArray* books;
 
 @property(nonatomic, copy) NSArray* versions;
 
@@ -40,5 +42,11 @@
 - (NSString *)getVersionShortName:(NSString *)versionName;
 
 - (NSString *)getChapterName:(NSString *)chapterName;
+
+- (NSString *)getBookName:(NSString *)osisName;
+
+- (BOOL)changeBook:(NSString *)newBook;
+
+- (void)saveOSISVersion;
 
 @end

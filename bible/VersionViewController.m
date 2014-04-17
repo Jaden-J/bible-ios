@@ -32,6 +32,11 @@
     versions = provider.versions;
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [provider saveOSISVersion];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

@@ -15,6 +15,7 @@
     NSString* language;
     BOOL isZhHans;
     NSFileManager *fileManager;
+    NSUserDefaults *userDefaults;
 
     NSString *osis;
     NSString *book;
@@ -23,6 +24,8 @@
     NSString *prevOSIS;
     NSString *nextOSIS;
     NSMutableArray *chapters;
+    NSMutableArray *books;
+    NSMutableArray *bookNames;
 
     NSArray *versions;
     NSString *bibledata;
@@ -36,6 +39,7 @@
 @synthesize version = version;
 @synthesize versions = versions;
 @synthesize chapters = chapters;
+@synthesize books = books;
 
 - (id)init
 {
@@ -44,6 +48,8 @@
         database = nil;
 
         chapters = [NSMutableArray arrayWithCapacity:20];
+        books = [NSMutableArray arrayWithCapacity:66];
+        bookNames = [NSMutableArray arrayWithCapacity:66];
         bibledata = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)
                       objectAtIndex:0] stringByAppendingPathComponent:@"bibledata"];
         NSString *path = [[NSBundle mainBundle] pathForResource:@"reading" ofType:@"html"];
@@ -54,9 +60,18 @@
         isZhHans = [language isEqualToString:@"zh-Hans"];
         metadatas = [NSMutableDictionary dictionaryWithCapacity:5];
 
-        // TODO: store version and osis
-        [self changeVersion:NSLocalizedString(@"niv1984", @"Demo Version Name, only support niv1984, cunpss, cunpts")];
-        [self changeOSIS:@"Gen.1"];
+        userDefaults = [NSUserDefaults standardUserDefaults];
+
+        NSString *defaultVersion = [userDefaults stringForKey:@"version"];
+        NSString *defaultOSIS = [userDefaults stringForKey:@"osis"];
+        if (defaultVersion == nil || [defaultVersion length] == 0) {
+            defaultVersion = NSLocalizedString(@"niv1984", @"Demo Version Name, only support niv1984, cunpss, cunpts");
+        }
+        if (defaultOSIS == nil || [defaultVersion length] == 0) {
+            defaultOSIS = @"Gen.int";
+        }
+        [self changeVersion:defaultVersion];
+        [self changeOSIS:defaultOSIS];
         [self refreshVersions];
     }
     return self;
@@ -101,11 +116,14 @@
     if (chapters != nil) {
         [chapters removeAllObjects];
     }
+    if (books != nil) {
+        [books removeAllObjects];
+    }
     if (osis != nil) {
         NSString *newOSIS = osis;
         osis = nil;
         if (![self changeOSIS:newOSIS]) {
-            return [self changeOSIS:@"Gen.1"];
+            return [self changeOSIS:@"Gen.int"];
         } else {
             return NO;
         }
@@ -120,7 +138,7 @@
         return OSISChanged;
     }
     if (newOSIS == nil) {
-        newOSIS = @"Gen.1";
+        newOSIS = @"Gen.int";
     }
     if ([newOSIS isEqualToString:osis]) {
         return OSISChanged;
@@ -228,8 +246,8 @@
 
 - (NSString *)getVersionMetadata:(NSString *)versionName withName:(NSString *)name defaultValue:(NSString *)value
 {
-    int index = [versions indexOfObject:versionName];
-    if (index < 0) {
+    NSUInteger index = [versions indexOfObject:versionName];
+    if (index > [versions count]) {
         return value;
     }
     NSMutableDictionary* metadata = [metadatas objectForKey:versionName];
@@ -270,6 +288,22 @@
     return chapters;
 }
 
+- (NSArray *)getBooks
+{
+    if ([books count] == 0) {
+        [books removeAllObjects];
+        [bookNames removeAllObjects];
+        sqlite3_stmt *statement;
+        sqlite3_prepare_v2(database, (const char *) QUERY_BOOKS, -1, &statement, nil);
+        while (sqlite3_step(statement) == SQLITE_ROW) {
+            [books addObject:[self getString:statement andIndex:0]];
+            [bookNames addObject:[self getString:statement andIndex:1]];
+        }
+        sqlite3_finalize(statement);
+    }
+    return books;
+}
+
 - (NSString *)getChapterName:(NSString *)chapterName
 {
     NSString *name = [[chapterName componentsSeparatedByString:@"." ] lastObject];
@@ -279,6 +313,40 @@
         return name;
     }
 }
+
+- (NSString *)getBookName:(NSString *)osisName
+{
+    NSUInteger index = [books indexOfObject:osisName];
+    if (index < [bookNames count]) {
+        return [bookNames objectAtIndex:index];
+    } else {
+        return osisName;
+    }
+}
+
+- (BOOL)changeBook:(NSString *)newBook
+{
+    NSString *oldBook = [[osis componentsSeparatedByString:@"."] firstObject];
+    if ([oldBook isEqualToString:newBook]) {
+        return NO;
+    } else {
+        [userDefaults setObject:osis forKey:oldBook];
+        NSString *newOSIS = [userDefaults stringForKey:newBook];
+        [userDefaults synchronize];
+        if (newOSIS == nil || [newOSIS length] == 0) {
+            newOSIS = [newBook stringByAppendingString:@".int"];
+        }
+        return [self changeOSIS:newOSIS];
+    }
+}
+
+- (void)saveOSISVersion
+{
+    [userDefaults setObject:osis forKey:@"osis"];
+    [userDefaults setObject:version forKey:@"version"];
+    [userDefaults synchronize];
+}
+
 - (void)dealloc
 {
     if (database != nil) {

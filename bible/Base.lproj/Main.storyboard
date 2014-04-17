@@ -70,7 +70,7 @@
                     <items>
                         <barButtonItem title="Book" id="91t-KO-q02">
                             <connections>
-                                <segue destination="d8w-HT-o4x" kind="push" id="H5S-tI-dvn"/>
+                                <segue destination="Dd9-q8-len" kind="push" id="lip-al-5kp"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem title="Chapter" id="jtF-Nj-eCV">
@@ -99,6 +99,54 @@
                 </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="420" y="0.0"/>
+        </scene>
+        <!--Book View Controller-->
+        <scene sceneID="FMq-Pp-RTg">
+            <objects>
+                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="Dd9-q8-len" customClass="BookViewController" sceneMemberID="viewController">
+                    <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="BxK-kI-Qtw">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="OjM-3k-R0C">
+                            <size key="itemSize" width="150" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" reuseIdentifier="Cell" id="Fdo-il-AeQ">
+                                <rect key="frame" x="0.0" y="0.0" width="150" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="150" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" tag="100" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vwT-QZ-J8v">
+                                            <rect key="frame" x="0.0" y="0.0" width="150" height="50"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Button">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="touchDown:" destination="Dd9-q8-len" eventType="touchDown" id="Gpz-mj-ncw"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="Dd9-q8-len" id="in6-q6-3Nj"/>
+                            <outlet property="delegate" destination="Dd9-q8-len" id="Jwm-hQ-L4S"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" id="3Vs-q3-zIf"/>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fRY-cP-ai0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="963" y="-603"/>
         </scene>
         <!--Chapter View Controller-->
         <scene sceneID="GLm-rI-99h">
@@ -191,16 +239,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Nh-rC-qey" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="960" y="640"/>
-        </scene>
-        <!--View Controller - Book-->
-        <scene sceneID="neB-VY-eoc">
-            <objects>
-                <viewController title="Book" id="d8w-HT-o4x" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="vsJ-Le-LbX"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0Pg-Sa-5aB" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="960" y="-640"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
