@@ -23,11 +23,12 @@
     NSString *content;
     NSString *prevOSIS;
     NSString *nextOSIS;
+
+    NSMutableArray *versions;
     NSMutableArray *chapters;
     NSMutableArray *books;
     NSMutableArray *bookNames;
 
-    NSArray *versions;
     NSString *bibledata;
     NSMutableDictionary *metadatas;
 }
@@ -44,9 +45,9 @@
 - (id)init
 {
     if ((self = [super init])) {
-        version = nil;
         database = nil;
 
+        versions = [NSMutableArray arrayWithCapacity:5];
         chapters = [NSMutableArray arrayWithCapacity:20];
         books = [NSMutableArray arrayWithCapacity:66];
         bookNames = [NSMutableArray arrayWithCapacity:66];
@@ -197,14 +198,20 @@
         [fileManager createDirectoryAtPath:bibledata withIntermediateDirectories:YES attributes:nil error:nil];
         [[NSURL fileURLWithPath:bibledata] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
     }
+    [versions removeAllObjects];
     if (!directory) {
-        versions = nil;
         [fileManager removeItemAtPath:bibledata error:nil];
     } else {
-        versions = [fileManager contentsOfDirectoryAtPath:bibledata error:nil];
+        for (NSString *path in [fileManager contentsOfDirectoryAtPath:bibledata error:nil]) {
+            if ([path hasSuffix:@".sqlite3"]) {
+                [versions addObject:[path stringByReplacingOccurrencesOfString:@".sqlite3" withString:@""]];
+            }
+        }
     }
-    if (versions == nil || [versions count] == 0) {
-        versions = [NSArray arrayWithObjects:@"cunpss", @"cunpts", @"niv1984", nil];
+    if ([versions count] == 0) {
+        [versions addObject:@"cunpss"];
+        [versions addObject:@"cunpts"];
+        [versions addObject:@"niv1984"];
     }
     return YES;
 }
