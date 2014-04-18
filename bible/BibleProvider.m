@@ -338,7 +338,9 @@
     if ([oldBook isEqualToString:newBook]) {
         return NO;
     } else {
-        [userDefaults setObject:osis forKey:oldBook];
+        if (oldBook != nil) {
+            [userDefaults setObject:osis forKey:oldBook];
+        }
         NSString *newOSIS = [userDefaults stringForKey:newBook];
         [userDefaults synchronize];
         if (newOSIS == nil || [newOSIS length] == 0) {
