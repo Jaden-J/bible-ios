@@ -75,11 +75,9 @@
     [button setTitle:bookName forState:UIControlStateNormal];
     if ([provider.osis hasPrefix:[book stringByAppendingString:@"."]]) {
         [button setHighlighted:YES];
-        [button setSelected:YES];
         index = indexPath;
     } else {
         [button setHighlighted:NO];
-        [button setSelected:NO];
     }
     [button setTitle:book forState:UIControlStateApplication];
     return cell;

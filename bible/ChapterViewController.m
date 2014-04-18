@@ -48,11 +48,9 @@
     [button setTitle:chapterName forState:UIControlStateNormal];
     if ([osis isEqualToString:provider.osis]) {
         [button setHighlighted:YES];
-        [button setSelected:YES];
         index = indexPath;
     } else {
         [button setHighlighted:NO];
-        [button setSelected:NO];
     }
     [button setTitle:osis forState:UIControlStateApplication];
     return cell;
