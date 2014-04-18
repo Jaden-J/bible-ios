@@ -16,7 +16,6 @@
 @implementation ChapterViewController {
     BibleProvider *provider;
     NSArray *chapters;
-    NSIndexPath *index;
 }
 
 - (void)viewDidLoad
@@ -31,6 +30,13 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    NSUInteger index = [chapters indexOfObject:provider.osis];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+    [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:animated];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -48,7 +54,6 @@
     [button setTitle:chapterName forState:UIControlStateNormal];
     if ([osis isEqualToString:provider.osis]) {
         [button setHighlighted:YES];
-        index = indexPath;
     } else {
         [button setHighlighted:NO];
     }

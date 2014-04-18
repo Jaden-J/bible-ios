@@ -30,6 +30,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     versions = provider.versions;
+    NSUInteger index = [versions indexOfObject:provider.version];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+    [self.tableView selectRowAtIndexPath:indexPath animated:animated scrollPosition:UITableViewScrollPositionMiddle];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -53,9 +56,6 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     cell.textLabel.text = [provider getVersionShortName:versions[indexPath.row]];
     cell.detailTextLabel.text = [provider getVersionFullName:versions[indexPath.row]];
-    if ([versions[indexPath.row] isEqualToString:provider.version]) {
-        [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:0];
-    }
     return cell;
 }
 

@@ -16,7 +16,7 @@
 @implementation BookViewController {
     BibleProvider *provider;
     NSArray *books;
-    NSIndexPath *index;
+    NSString *osis;
 }
 
 - (void)viewDidLoad
@@ -50,6 +50,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    osis = [[provider.osis componentsSeparatedByString:@"."] firstObject];
+    NSUInteger index = [books indexOfObject:osis];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+    [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:animated];
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return [books count];
@@ -73,9 +81,8 @@
 
     NSString *bookName = [provider getBookName:book];
     [button setTitle:bookName forState:UIControlStateNormal];
-    if ([provider.osis hasPrefix:[book stringByAppendingString:@"."]]) {
+    if ([osis isEqualToString:book]) {
         [button setHighlighted:YES];
-        index = indexPath;
     } else {
         [button setHighlighted:NO];
     }
