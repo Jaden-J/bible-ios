@@ -18,8 +18,6 @@
     NSUserDefaults *userDefaults;
 
     NSString *osis;
-    NSString *book;
-    NSString *chapter;
     NSString *content;
     NSString *prevOSIS;
     NSString *nextOSIS;
@@ -27,15 +25,13 @@
     NSMutableArray *versions;
     NSMutableArray *chapters;
     NSMutableArray *books;
-    NSMutableArray *bookNames;
+    NSMutableDictionary *bookNames;
 
     NSString *bibledata;
     NSMutableDictionary *metadatas;
 }
 
-@synthesize book = book;
-@synthesize osis = osis;
-@synthesize chapter = chapter;
+@synthesize chapter = osis;
 @synthesize content = content;
 @synthesize version = version;
 @synthesize versions = versions;
@@ -48,9 +44,9 @@
         database = nil;
 
         versions = [NSMutableArray arrayWithCapacity:5];
-        chapters = [NSMutableArray arrayWithCapacity:20];
+        chapters = [NSMutableArray arrayWithCapacity:150];
         books = [NSMutableArray arrayWithCapacity:66];
-        bookNames = [NSMutableArray arrayWithCapacity:66];
+        bookNames = [NSMutableDictionary dictionaryWithCapacity:66];
         bibledata = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)
                       objectAtIndex:0] stringByAppendingPathComponent:@"bibledata"];
         NSString *path = [[NSBundle mainBundle] pathForResource:@"reading" ofType:@"html"];
@@ -58,7 +54,7 @@
 
         fileManager = [NSFileManager defaultManager];
         language = [[NSLocale preferredLanguages] objectAtIndex:0];
-        isZhHans = [language isEqualToString:@"zh-Hans"];
+        isZhHans = [language isEqual:@"zh-Hans"];
         metadatas = [NSMutableDictionary dictionaryWithCapacity:5];
 
         userDefaults = [NSUserDefaults standardUserDefaults];
@@ -71,8 +67,8 @@
         if (defaultOSIS == nil || [defaultVersion length] == 0) {
             defaultOSIS = @"Gen.int";
         }
-        [self changeVersion:defaultVersion];
-        [self changeOSIS:defaultOSIS];
+        [self setVersion:defaultVersion];
+        [self setChapter:defaultOSIS];
         [self refreshVersions];
     }
     return self;
@@ -88,11 +84,11 @@
     return instance;
 }
 
-- (BOOL)changeVersion:(NSString *)newVersion
+- (BOOL)setVersion:(NSString *)newVersion
 {
     NSString *path;
     sqlite3 *newDatabase;
-    if (newVersion == nil || [newVersion isEqualToString:version]) {
+    if (newVersion == nil || [newVersion isEqual:version]) {
         return NO;
     }
     path = [self getPath:newVersion];
@@ -116,15 +112,17 @@
 {
     if (chapters != nil) {
         [chapters removeAllObjects];
+        [self getChapters];
     }
     if (books != nil) {
         [books removeAllObjects];
+        [self getBooks];
     }
     if (osis != nil) {
         NSString *newOSIS = osis;
         osis = nil;
-        if (![self changeOSIS:newOSIS]) {
-            return [self changeOSIS:@"Gen.int"];
+        if (![self setChapter:newOSIS]) {
+            return [self setChapter:@"Gen.int"];
         } else {
             return NO;
         }
@@ -132,7 +130,7 @@
     return NO;
 }
 
-- (BOOL)changeOSIS:(NSString *)newOSIS
+- (BOOL)setChapter:(NSString *)newOSIS
 {
     BOOL OSISChanged = NO;
     if (database == nil) {
@@ -141,7 +139,7 @@
     if (newOSIS == nil) {
         newOSIS = @"Gen.int";
     }
-    if ([newOSIS isEqualToString:osis]) {
+    if ([newOSIS isEqual:osis]) {
         return OSISChanged;
     }
     sqlite3_stmt *statement;
@@ -153,9 +151,8 @@
     sqlite3_bind_text(statement, 2, [noIntOSIS UTF8String], -1, NULL);
     if (sqlite3_step(statement) == SQLITE_ROW) {
         osis = [self getString:statement andIndex:0];
-        book = [self getString:statement andIndex:1];
-        content = [self getString:statement andIndex:2];
-        if (isZhHans || [version isEqualToString:@"ccb"] || [version hasSuffix:@"ss"]) {
+        content = [self getString:statement andIndex:1];
+        if (isZhHans || [version isEqual:@"ccb"] || [version hasSuffix:@"ss"]) {
             content = [content stringByReplacingOccurrencesOfString:@"「" withString:@"“"];
             content = [content stringByReplacingOccurrencesOfString:@"」" withString:@"”"];
             content = [content stringByReplacingOccurrencesOfString:@"『" withString:@"』"];
@@ -163,9 +160,8 @@
             content = [content stringByReplacingOccurrencesOfString:@"上帝" withString:@"　神"];
         }
         content = [NSString stringWithFormat:reading, osis, content];
-        prevOSIS = [self getString:statement andIndex:3];
-        nextOSIS = [self getString:statement andIndex:4];
-        chapter = [[osis componentsSeparatedByString:@"."] lastObject];
+        prevOSIS = [self getString:statement andIndex:2];
+        nextOSIS = [self getString:statement andIndex:3];
         OSISChanged = YES;
     }
     sqlite3_finalize(statement);
@@ -178,18 +174,18 @@
     if (text == NULL) {
         return @"";
     } else {
-        return [[NSString alloc] initWithUTF8String:text];
+        return [NSString stringWithUTF8String:text];
     }
 }
 
-- (BOOL)next
+- (BOOL)nextChapter
 {
-    return [self changeOSIS:nextOSIS];
+    return [self setChapter:nextOSIS];
 }
 
-- (BOOL)previous
+- (BOOL)previousChapter
 {
-    return [self changeOSIS:prevOSIS];
+    return [self setChapter:prevOSIS];
 }
 
 - (BOOL)refreshVersions
@@ -282,12 +278,12 @@
 
 - (NSArray *)getChapters
 {
-    NSString *osisBook = [[osis componentsSeparatedByString:@"."] firstObject];
-    if ([chapters count] == 0 || ![[chapters objectAtIndex:0] hasPrefix:[osisBook stringByAppendingString:@"."]]) {
+    NSString *book = [[osis componentsSeparatedByString:@"."] firstObject];
+    if ([chapters count] == 0 || ![[chapters objectAtIndex:0] hasPrefix:[book stringByAppendingString:@"."]]) {
         [chapters removeAllObjects];
         sqlite3_stmt *statement;
         sqlite3_prepare_v2(database, (const char *) QUERY_CHAPTERS, -1, &statement, nil);
-        sqlite3_bind_text(statement, 1, [[osisBook stringByAppendingString:@".%"] UTF8String], -1, NULL);
+        sqlite3_bind_text(statement, 1, [[book stringByAppendingString:@".%"] UTF8String], -1, NULL);
         while (sqlite3_step(statement) == SQLITE_ROW) {
             [chapters addObject:[self getString:statement andIndex:0]];
         }
@@ -304,38 +300,41 @@
         sqlite3_stmt *statement;
         sqlite3_prepare_v2(database, (const char *) QUERY_BOOKS, -1, &statement, nil);
         while (sqlite3_step(statement) == SQLITE_ROW) {
-            [books addObject:[self getString:statement andIndex:0]];
-            [bookNames addObject:[self getString:statement andIndex:1]];
+            NSString *book = [self getString:statement andIndex:0];
+            NSString *bookName = [self getString:statement andIndex:1];
+            [books addObject:book];
+            [bookNames setObject:bookName forKey:book];
         }
         sqlite3_finalize(statement);
     }
     return books;
 }
 
-- (NSString *)getChapterName:(NSString *)chapterName
+- (NSString *)getBookName:(NSString *)chapter
 {
-    NSString *name = [[chapterName componentsSeparatedByString:@"." ] lastObject];
-    if ([@"int" isEqualToString:name]) {
+    NSString *book = [[chapter componentsSeparatedByString:@"." ] firstObject];
+    NSString *bookName = [bookNames objectForKey:book];
+    if (bookName == nil) {
+        return book;
+    } else {
+        return bookName;
+    }
+}
+
+- (NSString *)getChapterName:(NSString *)chapter
+{
+    NSString *chapterName = [[chapter componentsSeparatedByString:@"." ] lastObject];
+    if ([@"int" isEqual:chapterName]) {
         return NSLocalizedString(@"Intro", @"Chapter Introduction in some bible translations");
     } else {
-        return name;
+        return chapterName;
     }
 }
 
-- (NSString *)getBookName:(NSString *)osisName
-{
-    NSUInteger index = [books indexOfObject:osisName];
-    if (index < [bookNames count]) {
-        return [bookNames objectAtIndex:index];
-    } else {
-        return osisName;
-    }
-}
-
-- (BOOL)changeBook:(NSString *)newBook
+- (BOOL)setBook:(NSString *)newBook
 {
     NSString *oldBook = [[osis componentsSeparatedByString:@"."] firstObject];
-    if ([oldBook isEqualToString:newBook]) {
+    if ([oldBook isEqual:newBook]) {
         return NO;
     } else {
         if (oldBook != nil) {
@@ -346,11 +345,11 @@
         if (newOSIS == nil || [newOSIS length] == 0) {
             newOSIS = [newBook stringByAppendingString:@".int"];
         }
-        return [self changeOSIS:newOSIS];
+        return [self setChapter:newOSIS];
     }
 }
 
-- (void)saveOSISVersion
+- (void)save
 {
     [userDefaults setObject:osis forKey:@"osis"];
     [userDefaults setObject:version forKey:@"version"];

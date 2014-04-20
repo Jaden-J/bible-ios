@@ -16,7 +16,7 @@
 @implementation BookViewController {
     BibleProvider *provider;
     NSArray *books;
-    NSString *osis;
+    NSString *currentBook;
 }
 
 - (void)viewDidLoad
@@ -24,23 +24,24 @@
     [super viewDidLoad];
     self.navigationItem.title = NSLocalizedString(@"Choose Book", nil);
     provider = [BibleProvider defaultProvider];
-    NSArray *osises = provider.books;
-    NSUInteger matt = [osises indexOfObject:@"Matt"];
-    NSUInteger count = [osises count];
+    NSUInteger matt = [provider.books indexOfObject:@"Matt"];
+    NSUInteger count = [provider.books count];
     if (matt < count && matt * 2 > count) {
         NSMutableArray *items = [NSMutableArray arrayWithCapacity:78];
         for (NSUInteger left = 0; left < matt; ++left) {
             NSUInteger right = matt + left;
-            [items addObject:[osises objectAtIndex:left]];
+            [items addObject:[provider.books objectAtIndex:left]];
             if (right < count) {
-                [items addObject:[osises objectAtIndex:right]];
+                [items addObject:[provider.books objectAtIndex:right]];
             } else {
                 [items addObject:@""];
             }
         }
-        books = items;
+        books = [NSArray arrayWithArray:items];
+        [items removeAllObjects];
+        items = nil;
     } else {
-        books = osises;
+        books = provider.books;
     }
 }
 
@@ -52,8 +53,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    osis = [[provider.osis componentsSeparatedByString:@"."] firstObject];
-    NSUInteger index = [books indexOfObject:osis];
+    currentBook = [[provider.chapter componentsSeparatedByString:@"."] firstObject];
+    NSUInteger index = [books indexOfObject:currentBook];
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
     [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:animated];
 }
@@ -81,7 +82,7 @@
 
     NSString *bookName = [provider getBookName:book];
     [button setTitle:bookName forState:UIControlStateNormal];
-    if ([osis isEqualToString:book]) {
+    if ([currentBook isEqual:book]) {
         [button setHighlighted:YES];
     } else {
         [button setHighlighted:NO];
@@ -93,7 +94,7 @@
 - (IBAction)touchDown:(UIButton *)sender
 {
     NSString *book = [sender titleForState:UIControlStateApplication];
-    [provider changeBook:book];
+    [provider setBook:book];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

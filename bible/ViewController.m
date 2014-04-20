@@ -42,14 +42,14 @@
 
 - (IBAction)swipeLeft:(id)sender
 {
-    if ([provider next]) {
+    if ([provider nextChapter]) {
         [self reload];
     }
 }
 
 - (IBAction)swipeRight:(id)sender
 {
-    if ([provider previous]) {
+    if ([provider previousChapter]) {
         [self reload];
     }
 }
@@ -62,8 +62,8 @@
 
 - (void)reload
 {
-    [self.book setTitle:provider.book];
-    [self.chapter setTitle:provider.chapter];
+    [self.book setTitle:[provider getBookName:provider.chapter]];
+    [self.chapter setTitle:[provider getChapterName:provider.chapter]];
     [self.webview loadHTMLString:provider.content baseURL:baseurl];
 }
 

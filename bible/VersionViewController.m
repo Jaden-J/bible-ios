@@ -16,6 +16,7 @@
 @implementation VersionViewController {
     BibleProvider *provider;
     NSArray *versions;
+    NSString *currentVersion;
 }
 
 - (void)viewDidLoad
@@ -25,19 +26,20 @@
     self.navigationItem.title = NSLocalizedString(@"Choose Version", nil);
 
     provider = [BibleProvider defaultProvider];
+    versions = provider.versions;
+    currentVersion = provider.version;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    versions = provider.versions;
-    NSUInteger index = [versions indexOfObject:provider.version];
+    NSUInteger index = [versions indexOfObject:currentVersion];
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
     [self.tableView selectRowAtIndexPath:indexPath animated:animated scrollPosition:UITableViewScrollPositionMiddle];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [provider saveOSISVersion];
+    [provider save];
 }
 
 - (void)didReceiveMemoryWarning
@@ -61,7 +63,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [provider changeVersion:versions[indexPath.row]];
+    [provider setVersion:versions[indexPath.row]];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

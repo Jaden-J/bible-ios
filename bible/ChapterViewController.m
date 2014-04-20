@@ -16,6 +16,7 @@
 @implementation ChapterViewController {
     BibleProvider *provider;
     NSArray *chapters;
+    NSString *currentChapter;
 }
 
 - (void)viewDidLoad
@@ -24,6 +25,7 @@
     self.navigationItem.title = NSLocalizedString(@"Choose Chapter", nil);
     provider = [BibleProvider defaultProvider];
     chapters = provider.chapters;
+    currentChapter = provider.chapter;
 }
 
 - (void)didReceiveMemoryWarning
@@ -34,7 +36,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSUInteger index = [chapters indexOfObject:provider.osis];
+    NSUInteger index = [chapters indexOfObject:currentChapter];
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
     [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:animated];
 }
@@ -48,23 +50,23 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-    NSString *osis = chapters[indexPath.row];
-    NSString *chapterName = [provider getChapterName:osis];
+    NSString *chapter = chapters[indexPath.row];
+    NSString *chapterName = [provider getChapterName:chapter];
     UIButton *button = (UIButton *)[cell viewWithTag:100];
     [button setTitle:chapterName forState:UIControlStateNormal];
-    if ([osis isEqualToString:provider.osis]) {
+    if ([chapter isEqual:currentChapter]) {
         [button setHighlighted:YES];
     } else {
         [button setHighlighted:NO];
     }
-    [button setTitle:osis forState:UIControlStateApplication];
+    [button setTitle:chapter forState:UIControlStateApplication];
     return cell;
 }
 
 - (IBAction)touchDown:(UIButton *)sender
 {
-    NSString *osis = [sender titleForState:UIControlStateApplication];
-    [provider changeOSIS:osis];
+    NSString *chapter = [sender titleForState:UIControlStateApplication];
+    [provider setChapter:chapter];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

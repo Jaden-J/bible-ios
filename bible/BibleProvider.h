@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
 
-#define QUERY_CHAPTER "select reference_osis, reference_human, content, previous_reference_osis, next_reference_osis\
+#define QUERY_CHAPTER "select reference_osis, content, previous_reference_osis, next_reference_osis\
     from chapters where reference_osis = ? or reference_osis = ? order by reference_osis desc limit 1"
 #define QUERY_METADATA "select name, value from metadata"
 #define QUERY_CHAPTERS "select reference_osis from chapters where reference_osis like ?"
@@ -17,36 +17,33 @@
 
 @interface BibleProvider : NSObject
 
-@property(nonatomic, copy) NSString* book;
-@property(nonatomic, copy) NSString* osis;
-@property(nonatomic, copy) NSString* chapter;
-@property(nonatomic, copy) NSString* content;
-@property(nonatomic, copy) NSString* version;
-@property(nonatomic, getter = getChapters) NSArray* chapters;
-@property(nonatomic, getter = getBooks) NSArray* books;
-
-@property(nonatomic, copy) NSArray* versions;
+@property(nonatomic, readonly, copy) NSString* chapter;
+@property(nonatomic, readonly, copy) NSString* content;
+@property(nonatomic, readonly, copy) NSString* version;
+@property(nonatomic, readonly, copy) NSArray* versions;
+@property(nonatomic, readonly, getter = getBooks) NSArray* books;
+@property(nonatomic, readonly, getter = getChapters) NSArray* chapters;
 
 + (id)defaultProvider;
 
-- (BOOL)changeVersion:(NSString *)newVersion;
+- (BOOL)setChapter:(NSString *)newChapter;
 
-- (BOOL)changeOSIS:(NSString *)newOSIS;
+- (BOOL)setBook:(NSString *)newBook;
 
-- (BOOL)next;
+- (BOOL)setVersion:(NSString *)newVersion;
 
-- (BOOL)previous;
+- (BOOL)nextChapter;
+
+- (BOOL)previousChapter;
 
 - (NSString *)getVersionFullName:(NSString *)versionName;
 
 - (NSString *)getVersionShortName:(NSString *)versionName;
 
-- (NSString *)getChapterName:(NSString *)chapterName;
+- (NSString *)getBookName:(NSString *)chapter;
 
-- (NSString *)getBookName:(NSString *)osisName;
+- (NSString *)getChapterName:(NSString *)chapter;
 
-- (BOOL)changeBook:(NSString *)newBook;
-
-- (void)saveOSISVersion;
+- (void)save;
 
 @end
