@@ -37,7 +37,37 @@
     </style>
     <link rel="stylesheet" type="text/css" href="reader.css"/>
     <script type="text/javascript">
-        var verse_start = -1, verse_end = -1, search = "", selected = "", highlighted = "", notes = [];
+        var verse_start = %@, verse_end = -1, search = "", selected = "%@", highlighted = "", notes = [];
+        var android = {
+            setVerse: function (verse) {
+                this.callback("setVerse", verse);
+            },
+            setCopyText: function (selected) {
+                this.callback("setCopyText", selected);
+            },
+            setHighlighted: function (highlighted) {
+                this.callback("setHighlighted", highlighted);
+            },
+            showAnnotation: function (link) {
+                this.callback("showAnnotation", link);
+            },
+            showNote: function (note) {
+                this.callback("showNote", note);
+            },
+            callback: function(funcname, payload) {
+                var iframe = document.getElementById("android");
+                iframe.src = "bible://" + funcname;
+                window.payload = payload;
+            }
+        };
+        window.html2text = function(html) {
+            var span = document.createElement("span");
+            span.innerHTML = html;
+	    Array.prototype.forEach.call(span.querySelectorAll(".xo"), function (item) {
+	        item.parentNode.removeChild(item);
+	    });
+            return span.innerText.trim();
+        }
     </script>
     <script type="text/javascript" src="reader.js"></script>
     <title>%@</title>
@@ -46,5 +76,6 @@
 <div id="content">
 %@
 </div>
+<iframe id="android" style="display:none"></iframe>
 </body>
 </html>

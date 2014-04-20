@@ -39,6 +39,7 @@
                                 <gestureRecognizers/>
                                 <dataDetectorType key="dataDetectorTypes"/>
                                 <connections>
+                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="AUy-aB-Xob"/>
                                     <outletCollection property="gestureRecognizers" destination="U4P-k5-mu8" appends="YES" id="P60-sx-T3b"/>
                                     <outletCollection property="gestureRecognizers" destination="Ofb-aY-sLS" appends="YES" id="I1M-WM-BzA"/>
                                 </connections>

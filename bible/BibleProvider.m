@@ -26,9 +26,13 @@
     NSMutableArray *chapters;
     NSMutableArray *books;
     NSMutableDictionary *bookNames;
+    NSMutableDictionary *annotations;
 
     NSString *bibledata;
     NSMutableDictionary *metadatas;
+
+    NSString *_selected;
+    NSString *_verse;
 }
 
 @synthesize chapter = osis;
@@ -47,6 +51,8 @@
         chapters = [NSMutableArray arrayWithCapacity:150];
         books = [NSMutableArray arrayWithCapacity:66];
         bookNames = [NSMutableDictionary dictionaryWithCapacity:66];
+        annotations = [NSMutableDictionary dictionary];
+
         bibledata = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)
                       objectAtIndex:0] stringByAppendingPathComponent:@"bibledata"];
         NSString *path = [[NSBundle mainBundle] pathForResource:@"reading" ofType:@"html"];
@@ -150,7 +156,6 @@
     sqlite3_bind_text(statement, 1, [newOSIS UTF8String], -1, NULL);
     sqlite3_bind_text(statement, 2, [noIntOSIS UTF8String], -1, NULL);
     if (sqlite3_step(statement) == SQLITE_ROW) {
-        osis = [self getString:statement andIndex:0];
         content = [self getString:statement andIndex:1];
         if (isZhHans || [version isEqualToString:@"ccb"] || [version hasSuffix:@"ss"]) {
             content = [content stringByReplacingOccurrencesOfString:@"「" withString:@"“"];
@@ -159,12 +164,28 @@
             content = [content stringByReplacingOccurrencesOfString:@"』" withString:@"’"];
             content = [content stringByReplacingOccurrencesOfString:@"上帝" withString:@"　神"];
         }
-        content = [NSString stringWithFormat:reading, osis, content];
+        if (osis != nil) {
+            // only clear when the osis is changed
+            _verse = @"-1";
+            _selected = @"";
+        }
+        content = [NSString stringWithFormat:reading, _verse, _selected, osis, content];
+        osis = [self getString:statement andIndex:0];
         prevOSIS = [self getString:statement andIndex:2];
         nextOSIS = [self getString:statement andIndex:3];
         OSISChanged = YES;
     }
     sqlite3_finalize(statement);
+    [annotations removeAllObjects];
+    if (sqlite3_prepare_v2(database, (const char *) QUERY_ANNOTATIONS, -1, &statement, nil) == SQLITE_OK) {
+        sqlite3_bind_text(statement, 1, [osis UTF8String], -1, NULL);
+        while (sqlite3_step(statement) == SQLITE_ROW) {
+            NSString *key = [self getString:statement andIndex:0];
+            NSString *value = [self getString:statement andIndex:1];
+            [annotations setObject:value forKey:key];
+        }
+        sqlite3_finalize(statement);
+    }
     return OSISChanged;
 }
 
@@ -354,6 +375,11 @@
     [userDefaults setObject:osis forKey:@"osis"];
     [userDefaults setObject:version forKey:@"version"];
     [userDefaults synchronize];
+}
+
+- (NSString *)getAnnotation:(NSString *)link
+{
+    return [annotations objectForKey:link];
 }
 
 - (void)dealloc

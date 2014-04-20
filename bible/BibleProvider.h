@@ -14,6 +14,7 @@
 #define QUERY_METADATA "select name, value from metadata"
 #define QUERY_CHAPTERS "select reference_osis from chapters where reference_osis like ?"
 #define QUERY_BOOKS "select osis, human from books"
+#define QUERY_ANNOTATIONS "select link, content from annotations where osis = ?"
 
 @interface BibleProvider : NSObject
 
@@ -23,6 +24,10 @@
 @property(nonatomic, readonly, copy) NSArray* versions;
 @property(nonatomic, readonly, getter = getBooks) NSArray* books;
 @property(nonatomic, readonly, getter = getChapters) NSArray* chapters;
+
+@property(nonatomic) NSString *selected;
+@property(nonatomic) NSString *verse;
+
 
 + (id)defaultProvider;
 
@@ -45,5 +50,7 @@
 - (NSString *)getChapterName:(NSString *)chapter;
 
 - (void)save;
+
+- (NSString *)getAnnotation:(NSString *)link;
 
 @end
