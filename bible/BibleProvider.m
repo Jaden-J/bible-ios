@@ -54,7 +54,7 @@
 
         fileManager = [NSFileManager defaultManager];
         language = [[NSLocale preferredLanguages] objectAtIndex:0];
-        isZhHans = [language isEqual:@"zh-Hans"];
+        isZhHans = [language isEqualToString:@"zh-Hans"];
         metadatas = [NSMutableDictionary dictionaryWithCapacity:5];
 
         userDefaults = [NSUserDefaults standardUserDefaults];
@@ -88,7 +88,7 @@
 {
     NSString *path;
     sqlite3 *newDatabase;
-    if (newVersion == nil || [newVersion isEqual:version]) {
+    if (newVersion == nil || [newVersion isEqualToString:version]) {
         return NO;
     }
     path = [self getPath:newVersion];
@@ -139,7 +139,7 @@
     if (newOSIS == nil) {
         newOSIS = @"Gen.int";
     }
-    if ([newOSIS isEqual:osis]) {
+    if ([newOSIS isEqualToString:osis]) {
         return OSISChanged;
     }
     sqlite3_stmt *statement;
@@ -152,7 +152,7 @@
     if (sqlite3_step(statement) == SQLITE_ROW) {
         osis = [self getString:statement andIndex:0];
         content = [self getString:statement andIndex:1];
-        if (isZhHans || [version isEqual:@"ccb"] || [version hasSuffix:@"ss"]) {
+        if (isZhHans || [version isEqualToString:@"ccb"] || [version hasSuffix:@"ss"]) {
             content = [content stringByReplacingOccurrencesOfString:@"「" withString:@"“"];
             content = [content stringByReplacingOccurrencesOfString:@"」" withString:@"”"];
             content = [content stringByReplacingOccurrencesOfString:@"『" withString:@"』"];
@@ -324,7 +324,7 @@
 - (NSString *)getChapterName:(NSString *)chapter
 {
     NSString *chapterName = [[chapter componentsSeparatedByString:@"." ] lastObject];
-    if ([@"int" isEqual:chapterName]) {
+    if ([@"int" isEqualToString:chapterName]) {
         return NSLocalizedString(@"Intro", @"Chapter Introduction in some bible translations");
     } else {
         return chapterName;
@@ -334,7 +334,7 @@
 - (BOOL)setBook:(NSString *)newBook
 {
     NSString *oldBook = [[osis componentsSeparatedByString:@"."] firstObject];
-    if ([oldBook isEqual:newBook]) {
+    if ([oldBook isEqualToString:newBook]) {
         return NO;
     } else {
         if (oldBook != nil) {

@@ -54,7 +54,7 @@
     NSString *chapterName = [provider getChapterName:chapter];
     UIButton *button = (UIButton *)[cell viewWithTag:100];
     [button setTitle:chapterName forState:UIControlStateNormal];
-    if ([chapter isEqual:currentChapter]) {
+    if ([chapter isEqualToString:currentChapter]) {
         [button setHighlighted:YES];
     } else {
         [button setHighlighted:NO];

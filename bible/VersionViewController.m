@@ -56,8 +56,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    cell.textLabel.text = [provider getVersionShortName:versions[indexPath.row]];
-    cell.detailTextLabel.text = [provider getVersionFullName:versions[indexPath.row]];
+    NSString *versionName = versions[indexPath.row];
+    NSString *versionShortName =[provider getVersionShortName:versionName];
+    if ([versionShortName isEqualToString:[versionName uppercaseString]]) {
+        cell.textLabel.text = versionShortName;
+    } else {
+        cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", versionShortName, [versionName uppercaseString]];
+    }
+    cell.detailTextLabel.text = [provider getVersionFullName:versionName];
     return cell;
 }
 

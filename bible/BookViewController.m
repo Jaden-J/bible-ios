@@ -82,7 +82,7 @@
 
     NSString *bookName = [provider getBookName:book];
     [button setTitle:bookName forState:UIControlStateNormal];
-    if ([currentBook isEqual:book]) {
+    if ([currentBook isEqualToString:book]) {
         [button setHighlighted:YES];
     } else {
         [button setHighlighted:NO];
