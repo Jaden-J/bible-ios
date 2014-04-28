@@ -66,17 +66,15 @@
         userDefaults = [NSUserDefaults standardUserDefaults];
 
         NSString *defaultVersion = [userDefaults stringForKey:@"version"];
-        NSString *defaultOSIS = [userDefaults stringForKey:@"osis"];
         if (defaultVersion == nil || [defaultVersion length] == 0) {
             defaultVersion = NSLocalizedString(@"niv1984", @"Demo Version Name, only support niv1984, cunpss, cunpts");
         }
-        if (defaultOSIS == nil || [defaultVersion length] == 0) {
-            defaultOSIS = @"Gen.int";
+        NSString *defaultOSISVerse = [userDefaults stringForKey:@"osis"];
+        if (defaultOSISVerse == nil || [defaultVersion length] == 0) {
+            defaultOSISVerse = @"Gen.int";
         }
-        _verse = @"-1";
-        _selected = @"";
         [self setVersion:defaultVersion];
-        [self setChapter:defaultOSIS];
+        [self setChapterVerse:defaultOSISVerse];
         [self refreshVersions];
     }
     return self;
@@ -166,11 +164,6 @@
             content = [content stringByReplacingOccurrencesOfString:@"』" withString:@"’"];
             content = [content stringByReplacingOccurrencesOfString:@"上帝" withString:@"　神"];
         }
-        if (osis != nil) {
-            // only clear when the osis is changed
-            _verse = @"-1";
-            _selected = @"";
-        }
         content = [NSString stringWithFormat:reading, _verse, _selected, osis, content];
         osis = [self getString:statement andIndex:0];
         prevOSIS = [self getString:statement andIndex:2];
@@ -191,6 +184,21 @@
     return OSISChanged;
 }
 
+- (BOOL)setChapterVerse:(NSString *)newOSISVerse
+{
+    NSString *newOSIS;
+    if ([newOSISVerse rangeOfString:@":"].location != NSNotFound) {
+        NSArray *osisVerse = [newOSISVerse componentsSeparatedByString:@":"];
+        newOSIS = osisVerse[0];
+        _verse = osisVerse[osisVerse.count - 1];
+    } else {
+        newOSIS = newOSISVerse;
+        _verse = @"-1";
+    }
+    _selected = @"";
+    return [self setChapter:newOSIS];
+}
+
 - (NSString*)getString:(sqlite3_stmt *)statement andIndex:(int)index
 {
     const char *text = (const char *) sqlite3_column_text(statement, index);
@@ -203,12 +211,12 @@
 
 - (BOOL)nextChapter
 {
-    return [self setChapter:nextOSIS];
+    return [self setChapterVerse:nextOSIS];
 }
 
 - (BOOL)previousChapter
 {
-    return [self setChapter:prevOSIS];
+    return [self setChapterVerse:prevOSIS];
 }
 
 - (BOOL)refreshVersions
@@ -361,20 +369,20 @@
         return NO;
     } else {
         if (oldBook != nil) {
-            [userDefaults setObject:osis forKey:oldBook];
+            [userDefaults setObject:[osis stringByAppendingFormat:@":%@", _verse] forKey:oldBook];
+            [userDefaults synchronize];
         }
-        NSString *newOSIS = [userDefaults stringForKey:newBook];
-        [userDefaults synchronize];
-        if (newOSIS == nil || [newOSIS length] == 0) {
-            newOSIS = [newBook stringByAppendingString:@".int"];
+        NSString *newOSISVerse = [userDefaults stringForKey:newBook];
+        if (newOSISVerse == nil || [newOSISVerse length] == 0) {
+            newOSISVerse = [newBook stringByAppendingString:@".int"];
         }
-        return [self setChapter:newOSIS];
+        return [self setChapterVerse:newOSISVerse];
     }
 }
 
 - (void)save
 {
-    [userDefaults setObject:osis forKey:@"osis"];
+    [userDefaults setObject:[osis stringByAppendingFormat:@":%@", _verse] forKey:@"osis"];
     [userDefaults setObject:version forKey:@"version"];
     [userDefaults synchronize];
 }
