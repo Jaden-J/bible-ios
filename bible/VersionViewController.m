@@ -16,7 +16,7 @@
 @implementation VersionViewController {
     BibleProvider *provider;
     NSArray *versions;
-    NSString *currentVersion;
+    NSIndexPath *currentIndexPath;
 }
 
 - (void)viewDidLoad
@@ -27,19 +27,13 @@
 
     provider = [BibleProvider defaultProvider];
     versions = provider.versions;
-    currentVersion = provider.version;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSUInteger index = [versions indexOfObject:currentVersion];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
-    [self.tableView selectRowAtIndexPath:indexPath animated:animated scrollPosition:UITableViewScrollPositionMiddle];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [provider save];
+    NSUInteger index = [versions indexOfObject:provider.version];
+    currentIndexPath = [NSIndexPath indexPathForItem:index inSection:0];
+    [self.tableView selectRowAtIndexPath:currentIndexPath animated:animated scrollPosition:UITableViewScrollPositionMiddle];
 }
 
 - (void)didReceiveMemoryWarning
@@ -69,7 +63,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [provider setVersion:versions[indexPath.row]];
+    if ([indexPath compare:currentIndexPath] != NSOrderedSame) {
+        [self.tableView deselectRowAtIndexPath:currentIndexPath animated:NO];
+        [provider setVersion:versions[indexPath.row]];
+        [provider save];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
