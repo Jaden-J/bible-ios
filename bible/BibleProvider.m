@@ -73,6 +73,8 @@
         if (defaultOSIS == nil || [defaultVersion length] == 0) {
             defaultOSIS = @"Gen.int";
         }
+        _verse = @"-1";
+        _selected = @"";
         [self setVersion:defaultVersion];
         [self setChapter:defaultOSIS];
         [self refreshVersions];
@@ -160,7 +162,7 @@
         if (isZhHans || [version isEqualToString:@"ccb"] || [version hasSuffix:@"ss"]) {
             content = [content stringByReplacingOccurrencesOfString:@"「" withString:@"“"];
             content = [content stringByReplacingOccurrencesOfString:@"」" withString:@"”"];
-            content = [content stringByReplacingOccurrencesOfString:@"『" withString:@"』"];
+            content = [content stringByReplacingOccurrencesOfString:@"『" withString:@"‘"];
             content = [content stringByReplacingOccurrencesOfString:@"』" withString:@"’"];
             content = [content stringByReplacingOccurrencesOfString:@"上帝" withString:@"　神"];
         }
