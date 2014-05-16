@@ -74,7 +74,7 @@
             defaultOSISVerse = @"Gen.int";
         }
         [self setVersion:defaultVersion];
-        [self setChapterVerse:defaultOSISVerse];
+        [self setChapter:defaultOSISVerse];
         [self refreshVersions];
     }
     return self;
@@ -127,8 +127,8 @@
     if (osis != nil) {
         NSString *newOSIS = osis;
         osis = nil;
-        if (![self setChapter:newOSIS]) {
-            return [self setChapter:@"Gen.int"];
+        if (![self loadChapter:newOSIS]) {
+            return [self loadChapter:@"Gen.int"];
         } else {
             return NO;
         }
@@ -136,7 +136,7 @@
     return NO;
 }
 
-- (BOOL)setChapter:(NSString *)newOSIS
+- (BOOL)loadChapter:(NSString *)newOSIS
 {
     BOOL OSISChanged = NO;
     if (database == nil) {
@@ -184,7 +184,7 @@
     return OSISChanged;
 }
 
-- (BOOL)setChapterVerse:(NSString *)newOSISVerse
+- (BOOL)setChapter:(NSString *)newOSISVerse
 {
     NSString *newOSIS;
     if ([newOSISVerse rangeOfString:@":"].location != NSNotFound) {
@@ -196,7 +196,7 @@
         _verse = @"-1";
     }
     _selected = @"";
-    return [self setChapter:newOSIS];
+    return [self loadChapter:newOSIS];
 }
 
 - (NSString*)getString:(sqlite3_stmt *)statement andIndex:(int)index
@@ -211,12 +211,12 @@
 
 - (BOOL)nextChapter
 {
-    return [self setChapterVerse:nextOSIS];
+    return [self setChapter:nextOSIS];
 }
 
 - (BOOL)previousChapter
 {
-    return [self setChapterVerse:prevOSIS];
+    return [self setChapter:prevOSIS];
 }
 
 - (BOOL)refreshVersions
@@ -376,7 +376,7 @@
         if (newOSISVerse == nil || [newOSISVerse length] == 0) {
             newOSISVerse = [newBook stringByAppendingString:@".int"];
         }
-        return [self setChapterVerse:newOSISVerse];
+        return [self setChapter:newOSISVerse];
     }
 }
 
