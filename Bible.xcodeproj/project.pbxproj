@@ -49,13 +49,13 @@
 		CD104AF518FF9DFE004E3042 /* VersionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionViewController.h; sourceTree = "<group>"; };
 		CD104AF618FF9DFE004E3042 /* VersionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionViewController.m; sourceTree = "<group>"; };
 		CD11826E18FD6DCB00E0BED3 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		CD14AD2018FCFE2A00F98E5C /* bible.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = bible.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD14AD2018FCFE2A00F98E5C /* Bible.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bible.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD14AD2318FCFE2A00F98E5C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CD14AD2518FCFE2A00F98E5C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		CD14AD2718FCFE2A00F98E5C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		CD14AD4118FCFE2A00F98E5C /* bibleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bibleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD14AD4118FCFE2A00F98E5C /* BibleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BibleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD14AD4218FCFE2A00F98E5C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		CD14AD4A18FCFE2A00F98E5C /* bibleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "bibleTests-Info.plist"; sourceTree = "<group>"; };
+		CD14AD4A18FCFE2A00F98E5C /* BibleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BibleTests-Info.plist"; sourceTree = "<group>"; };
 		CD14AD4C18FCFE2A00F98E5C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CD14AD4E18FCFE2A00F98E5C /* bibleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = bibleTests.m; sourceTree = "<group>"; };
 		CD48F77719003414003DE7CE /* ChapterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChapterViewController.h; sourceTree = "<group>"; };
@@ -66,8 +66,8 @@
 		CDD2B39618FECC9A00188175 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CDD2B39718FECC9A00188175 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		CDD2B39918FECC9A00188175 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		CDD2B39A18FECC9A00188175 /* bible-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "bible-Info.plist"; sourceTree = "<group>"; };
-		CDD2B39B18FECC9A00188175 /* bible-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "bible-Prefix.pch"; sourceTree = "<group>"; };
+		CDD2B39A18FECC9A00188175 /* Bible-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Bible-Info.plist"; sourceTree = "<group>"; };
+		CDD2B39B18FECC9A00188175 /* Bible-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bible-Prefix.pch"; sourceTree = "<group>"; };
 		CDD2B39C18FECC9A00188175 /* BibleProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibleProvider.h; sourceTree = "<group>"; };
 		CDD2B39D18FECC9A00188175 /* BibleProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibleProvider.m; sourceTree = "<group>"; };
 		CDD2B39F18FECC9A00188175 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -127,8 +127,8 @@
 		CD14AD2118FCFE2A00F98E5C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CD14AD2018FCFE2A00F98E5C /* bible.app */,
-				CD14AD4118FCFE2A00F98E5C /* bibleTests.xctest */,
+				CD14AD2018FCFE2A00F98E5C /* Bible.app */,
+				CD14AD4118FCFE2A00F98E5C /* BibleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -157,7 +157,7 @@
 		CD14AD4918FCFE2A00F98E5C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				CD14AD4A18FCFE2A00F98E5C /* bibleTests-Info.plist */,
+				CD14AD4A18FCFE2A00F98E5C /* BibleTests-Info.plist */,
 				CD14AD4B18FCFE2A00F98E5C /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -177,8 +177,8 @@
 				CDD2B39618FECC9A00188175 /* AppDelegate.h */,
 				CDD2B39718FECC9A00188175 /* AppDelegate.m */,
 				CDD2B3A118FECC9A00188175 /* main.m */,
-				CDD2B39B18FECC9A00188175 /* bible-Prefix.pch */,
-				CDD2B39A18FECC9A00188175 /* bible-Info.plist */,
+				CDD2B39B18FECC9A00188175 /* Bible-Prefix.pch */,
+				CDD2B39A18FECC9A00188175 /* Bible-Info.plist */,
 				CD104AF518FF9DFE004E3042 /* VersionViewController.h */,
 				CD104AF618FF9DFE004E3042 /* VersionViewController.m */,
 				CD48F77719003414003DE7CE /* ChapterViewController.h */,
@@ -214,9 +214,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CD14AD1F18FCFE2A00F98E5C /* bible */ = {
+		CD14AD1F18FCFE2A00F98E5C /* Bible */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CD14AD5218FCFE2A00F98E5C /* Build configuration list for PBXNativeTarget "bible" */;
+			buildConfigurationList = CD14AD5218FCFE2A00F98E5C /* Build configuration list for PBXNativeTarget "Bible" */;
 			buildPhases = (
 				CD14AD1C18FCFE2A00F98E5C /* Sources */,
 				CD14AD1D18FCFE2A00F98E5C /* Frameworks */,
@@ -226,14 +226,14 @@
 			);
 			dependencies = (
 			);
-			name = bible;
+			name = Bible;
 			productName = bible;
-			productReference = CD14AD2018FCFE2A00F98E5C /* bible.app */;
+			productReference = CD14AD2018FCFE2A00F98E5C /* Bible.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CD14AD4018FCFE2A00F98E5C /* bibleTests */ = {
+		CD14AD4018FCFE2A00F98E5C /* BibleTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CD14AD5518FCFE2A00F98E5C /* Build configuration list for PBXNativeTarget "bibleTests" */;
+			buildConfigurationList = CD14AD5518FCFE2A00F98E5C /* Build configuration list for PBXNativeTarget "BibleTests" */;
 			buildPhases = (
 				CD14AD3D18FCFE2A00F98E5C /* Sources */,
 				CD14AD3E18FCFE2A00F98E5C /* Frameworks */,
@@ -244,9 +244,9 @@
 			dependencies = (
 				CD14AD4718FCFE2A00F98E5C /* PBXTargetDependency */,
 			);
-			name = bibleTests;
+			name = BibleTests;
 			productName = bibleTests;
-			productReference = CD14AD4118FCFE2A00F98E5C /* bibleTests.xctest */;
+			productReference = CD14AD4118FCFE2A00F98E5C /* BibleTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -266,7 +266,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CD14AD1B18FCFE2A00F98E5C /* Build configuration list for PBXProject "bible" */;
+			buildConfigurationList = CD14AD1B18FCFE2A00F98E5C /* Build configuration list for PBXProject "Bible" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -281,8 +281,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CD14AD1F18FCFE2A00F98E5C /* bible */,
-				CD14AD4018FCFE2A00F98E5C /* bibleTests */,
+				CD14AD1F18FCFE2A00F98E5C /* Bible */,
+				CD14AD4018FCFE2A00F98E5C /* BibleTests */,
 			);
 		};
 /* End PBXProject section */
@@ -345,7 +345,7 @@
 /* Begin PBXTargetDependency section */
 		CD14AD4718FCFE2A00F98E5C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CD14AD1F18FCFE2A00F98E5C /* bible */;
+			target = CD14AD1F18FCFE2A00F98E5C /* Bible */;
 			targetProxy = CD14AD4618FCFE2A00F98E5C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -467,10 +467,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "bible/bible-Prefix.pch";
-				INFOPLIST_FILE = "bible/bible-Info.plist";
+				GCC_PREFIX_HEADER = "bible/Bible-Prefix.pch";
+				INFOPLIST_FILE = "bible/Bible-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Bible;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -482,10 +482,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "bible/bible-Prefix.pch";
-				INFOPLIST_FILE = "bible/bible-Info.plist";
+				GCC_PREFIX_HEADER = "bible/Bible-Prefix.pch";
+				INFOPLIST_FILE = "bible/Bible-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Bible;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -505,8 +505,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "bibleTests/bibleTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "bibleTests/BibleTests-Info.plist";
+				PRODUCT_NAME = BibleTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -523,8 +523,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "bible/bible-Prefix.pch";
-				INFOPLIST_FILE = "bibleTests/bibleTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "bibleTests/BibleTests-Info.plist";
+				PRODUCT_NAME = BibleTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -533,7 +533,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CD14AD1B18FCFE2A00F98E5C /* Build configuration list for PBXProject "bible" */ = {
+		CD14AD1B18FCFE2A00F98E5C /* Build configuration list for PBXProject "Bible" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CD14AD5018FCFE2A00F98E5C /* Debug */,
@@ -542,7 +542,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CD14AD5218FCFE2A00F98E5C /* Build configuration list for PBXNativeTarget "bible" */ = {
+		CD14AD5218FCFE2A00F98E5C /* Build configuration list for PBXNativeTarget "Bible" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CD14AD5318FCFE2A00F98E5C /* Debug */,
@@ -551,7 +551,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CD14AD5518FCFE2A00F98E5C /* Build configuration list for PBXNativeTarget "bibleTests" */ = {
+		CD14AD5518FCFE2A00F98E5C /* Build configuration list for PBXNativeTarget "BibleTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CD14AD5618FCFE2A00F98E5C /* Debug */,
