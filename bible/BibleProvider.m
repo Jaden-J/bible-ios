@@ -53,7 +53,7 @@
         bookNames = [NSMutableDictionary dictionaryWithCapacity:66];
         annotations = [NSMutableDictionary dictionary];
 
-        bibledata = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)
+        bibledata = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
                       objectAtIndex:0] stringByAppendingPathComponent:@"bibledata"];
         NSString *path = [[NSBundle mainBundle] pathForResource:@"reading" ofType:@"html"];
         reading = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
