@@ -53,4 +53,6 @@
 
 - (NSString *)getAnnotation:(NSString *)link;
 
+- (BOOL)refreshVersions;
+
 @end

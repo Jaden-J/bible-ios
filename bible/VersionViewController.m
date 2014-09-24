@@ -31,6 +31,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [provider refreshVersions];
     NSUInteger index = [versions indexOfObject:provider.version];
     currentIndexPath = [NSIndexPath indexPathForItem:index inSection:0];
     [self.tableView selectRowAtIndexPath:currentIndexPath animated:animated scrollPosition:UITableViewScrollPositionMiddle];
