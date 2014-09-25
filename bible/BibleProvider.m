@@ -53,8 +53,7 @@
         bookNames = [NSMutableDictionary dictionaryWithCapacity:66];
         annotations = [NSMutableDictionary dictionary];
 
-        bibledata = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
-                      objectAtIndex:0] stringByAppendingPathComponent:@"bibledata"];
+        bibledata = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         NSString *path = [[NSBundle mainBundle] pathForResource:@"reading" ofType:@"html"];
         reading = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
 
@@ -224,7 +223,6 @@
     BOOL directory;
     if (![fileManager fileExistsAtPath:bibledata isDirectory:&directory]) {
         [fileManager createDirectoryAtPath:bibledata withIntermediateDirectories:YES attributes:nil error:nil];
-        [[NSURL fileURLWithPath:bibledata] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
     }
     [versions removeAllObjects];
     if (!directory) {
